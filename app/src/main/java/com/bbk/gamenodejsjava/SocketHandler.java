@@ -13,7 +13,8 @@ import io.socket.client.Socket;
 
 public class SocketHandler {
 
-    private static final String SOCKET_URL = "http://192.168.1.7:3000/";
+    private static final String SOCKET_URL = "https://game-node-js-5412cbf208fc.herokuapp.com";
+//    private static final String SOCKET_URL = "http://192.168.1.7:3000/";
 //    private static final String SOCKET_URL = "http://localhost:3000/";
 
     final String NEW_MESSAGE = "new_message";
