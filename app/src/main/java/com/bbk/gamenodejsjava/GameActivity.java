@@ -72,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
 
-            socketHandler.onNewScore.observe(this, incomingData -> {
+            socketHandler.onNewScore().observe(this, incomingData -> {
                         if (incomingData.username.equals(userName)) {
                             selfPlayerScoreTextView.setText("" + incomingData.score);
                         } else {
@@ -87,7 +87,7 @@ public class GameActivity extends AppCompatActivity {
                     }
             );
 
-            socketHandler.onNewScore2.observe(this, incomingData -> {
+            socketHandler.onNewScore2().observe(this, incomingData -> {
                         if (incomingData.username.equals(userName)) {
                             selfPlayerScoreTextView.setText("" + incomingData.score);
                         } else {

@@ -23,8 +23,16 @@ public class SocketHandler {
 
     Socket socket;
 
-    MutableLiveData<Score> onNewScore = new MutableLiveData<>();
-    MutableLiveData<Score> onNewScore2 = new MutableLiveData<>();
+    private MutableLiveData<Score> _onNewScore = new MutableLiveData<>();
+    private MutableLiveData<Score> _onNewScore2 = new MutableLiveData<>();
+
+    LiveData<Score> onNewScore() {
+        return _onNewScore;
+    }
+
+    LiveData<Score> onNewScore2() {
+        return _onNewScore2;
+    }
 
     SocketHandler() {
         try {
@@ -48,7 +56,7 @@ public class SocketHandler {
                     if (!args[0].toString().isEmpty()) {
                         Log.d("DATADEBUG", "$data");
                         Score score = new Gson().fromJson(args[0].toString(), Score.class);
-                        onNewScore.postValue(score);
+                        _onNewScore.postValue(score);
                     }
                 }
             });
@@ -63,7 +71,7 @@ public class SocketHandler {
                     if (!args[0].toString().isEmpty()) {
                         Log.d("DATADEBUG2", "$data");
                         Score score = new Gson().fromJson(args[0].toString(), Score.class);
-                        onNewScore2.postValue(score);
+                        _onNewScore2.postValue(score);
                     }
                 }
             });
