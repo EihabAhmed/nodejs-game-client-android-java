@@ -89,14 +89,18 @@ public class SocketHandler {
     void emitScore(Score score) {
         String jsonStr = new Gson().toJson(score, Score.class);
         if (socket != null) {
-            socket.emit(NEW_MESSAGE, jsonStr);
+            for (int i = 0; i < 3; i++) {
+                socket.emit(NEW_MESSAGE, jsonStr);
+            }
         }
     }
 
     void emitScore2(Score score) {
         String jsonStr = new Gson().toJson(score, Score.class);
         if (socket != null) {
-            socket.emit(NEW_MESSAGE2, jsonStr);
+            for (int i = 0; i < 3; i++) {
+                socket.emit(NEW_MESSAGE2, jsonStr);
+            }
         }
     }
 }
