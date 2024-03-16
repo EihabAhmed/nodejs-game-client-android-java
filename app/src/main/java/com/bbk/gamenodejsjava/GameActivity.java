@@ -21,6 +21,7 @@ public class GameActivity extends AppCompatActivity {
     TextView otherPlayerScoreTextView;
     Button scoreButton;
     Button score2Button;
+    TextView ledStatusTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class GameActivity extends AppCompatActivity {
         otherPlayerScoreTextView = findViewById(R.id.other_player_score_textView);
         scoreButton = findViewById(R.id.score_button);
         score2Button = findViewById(R.id.score2_button);
+        ledStatusTextView = findViewById(R.id.led_status_textView);
 
         userName = getIntent().getStringExtra(USERNAME);
 
@@ -42,7 +44,6 @@ public class GameActivity extends AppCompatActivity {
         } else {
             selfPlayerTextView.setText(userName);
             selfPlayerScoreTextView.setText("" + myScore);
-
 
             socketHandler = new SocketHandler();
 
@@ -99,6 +100,15 @@ public class GameActivity extends AppCompatActivity {
                         selfPlayerScoreTextView.setTextColor(getResources().getColor(R.color.purple_700));
                         otherPlayerTextView.setTextColor(getResources().getColor(R.color.purple_700));
                         otherPlayerScoreTextView.setTextColor(getResources().getColor(R.color.purple_700));
+                    }
+            );
+
+            socketHandler.onLedStatus().observe(this, incomingData -> {
+                        if (incomingData.ledOff) {
+                            ledStatusTextView.setText("LED Off");
+                        } else {
+                            ledStatusTextView.setText("LED On");
+                        }
                     }
             );
         }

@@ -21,11 +21,13 @@ public class SocketHandler {
     final String BROADCAST = "broadcast";
     final String NEW_MESSAGE2 = "new_message2";
     final String BROADCAST2 = "broadcast2";
+    final String LED_STATUS = "led_status";
 
     Socket socket;
 
     private MutableLiveData<Score> _onNewScore = new MutableLiveData<>();
     private MutableLiveData<Score> _onNewScore2 = new MutableLiveData<>();
+    private MutableLiveData<LedStatus> _onLedStatus = new MutableLiveData<>();
 
     LiveData<Score> onNewScore() {
         return _onNewScore;
@@ -33,6 +35,10 @@ public class SocketHandler {
 
     LiveData<Score> onNewScore2() {
         return _onNewScore2;
+    }
+
+    LiveData<LedStatus> onLedStatus() {
+        return _onLedStatus;
     }
 
     SocketHandler() {
@@ -44,6 +50,7 @@ public class SocketHandler {
 
             registerOnNewScore();
             registerOnNewScore2();
+            registerOnLedStatus();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -79,6 +86,21 @@ public class SocketHandler {
         }
     }
 
+    private void registerOnLedStatus() {
+        if (socket != null) {
+
+            socket.on(LED_STATUS, args -> {
+                if (args != null) {
+                    if (!args[0].toString().isEmpty()) {
+                        Log.d("DATADEBUG3", "$data");
+                        LedStatus ledStatus = new Gson().fromJson(args[0].toString(), LedStatus.class);
+                        _onLedStatus.postValue(ledStatus);
+                    }
+                }
+            });
+        }
+    }
+
     void disconnectSocket() {
         if (socket != null) {
             socket.disconnect();
@@ -89,18 +111,14 @@ public class SocketHandler {
     void emitScore(Score score) {
         String jsonStr = new Gson().toJson(score, Score.class);
         if (socket != null) {
-            for (int i = 0; i < 3; i++) {
-                socket.emit(NEW_MESSAGE, jsonStr);
-            }
+            socket.emit(NEW_MESSAGE, jsonStr);
         }
     }
 
     void emitScore2(Score score) {
         String jsonStr = new Gson().toJson(score, Score.class);
         if (socket != null) {
-            for (int i = 0; i < 3; i++) {
-                socket.emit(NEW_MESSAGE2, jsonStr);
-            }
+            socket.emit(NEW_MESSAGE2, jsonStr);
         }
     }
 }
