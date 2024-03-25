@@ -22,6 +22,7 @@ public class GameActivity extends AppCompatActivity {
     Button scoreButton;
     Button score2Button;
     TextView ledStatusTextView;
+    TextView helloTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class GameActivity extends AppCompatActivity {
         scoreButton = findViewById(R.id.score_button);
         score2Button = findViewById(R.id.score2_button);
         ledStatusTextView = findViewById(R.id.led_status_textView);
+        helloTextView = findViewById(R.id.hello_textView);
 
         userName = getIntent().getStringExtra(USERNAME);
 
@@ -109,6 +111,8 @@ public class GameActivity extends AppCompatActivity {
                         } else {
                             ledStatusTextView.setText("LED On");
                         }
+
+                        helloTextView.setText(incomingData.hello);
                     }
             );
         }
